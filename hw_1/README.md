@@ -1,14 +1,33 @@
-## Vagrant with Apache inside
+## [Vagrant](https://www.vagrantup.com) with [Apache](https://httpd.apache.org) inside.
 
 ### Task
 
-The purpose of this task is to configure an Apache server instance with two name-based virtual hosts. The configuration should allow access only via HTTPS. The first host should return any static page and the second one should run a small Python back-end, which returns a page with the current date and browser fingerprint.
-The configured Apache server should be wrapped into the Vagrant box. Apache hosts should be accessible from the local machine (from outside the Vagrant box).
+Configure an Apache server which wrapped into the Vagrant box.
 
-### Contents
+Apache server instance must:
+1) Allow access only via HTTPS;
+2) Has two name-based virtual hosts: with static page and a small Python server;
 
-In this folder you can find:
- + Vagrant config;
- + Setup config;
- + Python config.
- + Python aiohttp server.
+Configured Apache hosts should be accessible from the local machine, outside the Vagrant box.
+
+### Run
+
+To up VM you just need to write:
+```
+vagrant up
+```
+
+To check it, use [Curl](https://curl.haxx.se/docs/manpage.html):
+```
+curl --insecure --location --request GET 'https://127.0.0.1/' \
+--header 'Host: {static.com or dynamic.com}'
+```
+
+Or you can add domain names in /etc/hosts:
+```
+echo "127.0.0.1 static.com" >> /etc/hosts
+echo "127.0.0.1 dynamic.com" >> /etc/hosts
+```
+And access via Browser by paths:
++ https://static.com,
++ https://dynamic.com
