@@ -20,7 +20,7 @@ vagrant up
 To check it, use [Curl](https://curl.haxx.se/docs/manpage.html):
 ```
 curl --insecure --location --request GET 'https://127.0.0.1/' \
---header 'Host: {static.com or dynamic.com}'
+--header 'Host: {{static.com OR dynamic.com}}'
 ```
 
 Or you can add domain names in /etc/hosts:

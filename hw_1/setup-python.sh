@@ -1,9 +1,8 @@
 #!/usr/bin/env bash
 
-mkdir /var/server
-cp /vagrant/python/server.py /var/server
+cp /vagrant/python/server.py /home/vagrant
 
 apt-get install -y python3-pip
-pip3 install -U pip aiohttp
+pip3 install -U pip aiohttp gunicorn
 
-nohup python3 /var/server/server.py &
+gunicorn server:create_app --bind localhost:8080 --worker-class aiohttp.GunicornWebWorker --daemon

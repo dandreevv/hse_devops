@@ -18,8 +18,8 @@ async def handler(request: web.Request) -> web.Response:
     return web.json_response(payload)
 
 
-app = web.Application()
-app.router.add_get("/", handler)
+async def create_app() -> web.Application:
+    app = web.Application()
+    app.router.add_get("/", handler)
 
-if __name__ == "__main__":
-    web.run_app(app, port=8080)
+    return app
