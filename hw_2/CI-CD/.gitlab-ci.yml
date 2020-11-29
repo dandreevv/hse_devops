@@ -1,0 +1,37 @@
+variables:
+  GODOT_IMAGE: ubuntu:latest
+  GODOT_PACKAGE: godot.zip
+
+image: $GODOT_IMAGE
+
+stages:
+  - build
+  - test
+  - package
+
+x64.linux.build:
+  stage: build
+  script:
+    - apt-get update
+    - DEBIAN_FRONTEND=noninteractive apt-get -yq install build-essential scons pkg-config libx11-dev libxcursor-dev libxinerama-dev libgl1-mesa-dev libglu-dev libasound2-dev libpulse-dev libudev-dev libxi-dev libxrandr-dev yasm dos2unix recode
+    - scons -j 4 bits=default platform=linuxbsd target=release_debug tests=yes
+  artifacts:
+    paths:
+      - bin/
+
+x64.linux.test:
+  stage: test
+  script:
+    - apt-get update
+    - DEBIAN_FRONTEND=noninteractive apt-get -yq install build-essential scons pkg-config libx11-dev libxcursor-dev libxinerama-dev libgl1-mesa-dev libglu-dev libasound2-dev libpulse-dev libudev-dev libxi-dev libxrandr-dev yasm dos2unix recode
+    - ./bin/godot.linuxbsd.tools.opt.64 --test
+
+x64.linux.package:
+  stage: package
+  script:
+    - apt-get update
+    - DEBIAN_FRONTEND=noninteractive apt-get -y install zip
+    - zip -j $GODOT_PACKAGE bin/godot.linuxbsd.tools.opt.64
+  artifacts:
+    paths:
+      - $GODOT_X64_L_BINARY.zip

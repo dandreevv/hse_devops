@@ -1,0 +1,29 @@
+version: "3.8"
+
+services:
+  gitlab_web:
+    image: gitlab/gitlab-ee:13.5.4-ee.0
+    container_name: gitlab_web
+    ports:
+      - "80:80"
+      - "443:443"
+      - "22:22"
+    volumes:
+      - "$GITLAB_WEB_HOME/config:/etc/gitlab"
+      - "$GITLAB_WEB_HOME/logs:/var/log/gitlab"
+      - "$GITLAB_WEB_HOME/data:/var/opt/gitlab"
+    networks:
+      - gitlab_network
+
+  gitlab_runner:
+    image: gitlab/gitlab-runner:alpine-v13.6.0
+    container_name: gitlab_runner
+    volumes:
+      - "$GITLAB_RUNNER_CONFIG:/etc/gitlab-runner"
+      - "$DOCKER_SOCK:/var/run/docker.sock"
+    networks:
+      - gitlab_network
+
+networks:
+  gitlab_network:
+    name: gitlab_network
