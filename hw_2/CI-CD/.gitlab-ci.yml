@@ -34,4 +34,4 @@ x64.linux.package:
     - zip -j $GODOT_PACKAGE bin/godot.linuxbsd.tools.opt.64
   artifacts:
     paths:
-      - $GODOT_X64_L_BINARY.zip
+      - $GODOT_PACKAGE.zip
